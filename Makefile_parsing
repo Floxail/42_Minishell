@@ -1,0 +1,74 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: floxail <floxail@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2026/03/03 18:00:00 by floxail           #+#    #+#              #
+#    Updated: 2026/03/04 09:25:43 by floxail          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+NAME		= minishell
+
+# Directories
+SRC_DIR		= src
+OBJ_DIR		= obj
+LIBFT_DIR	= $(HOME)/42/libft
+
+# Source files
+SRCS		= $(SRC_DIR)/main.c \
+			  $(SRC_DIR)/parsing/ft_lexer.c \
+			  $(SRC_DIR)/parsing/ft_lexer_word.c \
+			  $(SRC_DIR)/parsing/ft_lexer_op.c \
+			  $(SRC_DIR)/parsing/ft_token_utils.c \
+			  $(SRC_DIR)/parsing/ft_expander.c \
+			  $(SRC_DIR)/parsing/ft_expand_utils.c \
+			  $(SRC_DIR)/parsing/ft_parser.c \
+			  $(SRC_DIR)/parsing/ft_parser_syntax.c \
+			  $(SRC_DIR)/parsing/ft_cmd_utils.c \
+			  $(SRC_DIR)/parsing/ft_redir_utils.c \
+			  $(SRC_DIR)/utils/ft_free_cmds.c \
+			  $(SRC_DIR)/utils/ft_errmsg.c
+
+# Object files
+OBJS		= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+
+# Libraries
+LIBFT		= $(LIBFT_DIR)/libft.a
+
+# Compiler and flags
+CC			= cc
+CFLAGS		= -Wall -Wextra -Werror -I. -I$(LIBFT_DIR)
+LDFLAGS		= -L$(LIBFT_DIR) -lft -lreadline
+
+# Rules
+all: $(NAME)
+
+$(NAME): $(LIBFT) $(OBJS)
+	@$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(NAME)
+	@echo "compiled successfully"
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(@D)
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@echo "Compiled $<"
+
+$(LIBFT):
+	@echo "Building libft"
+	@$(MAKE) -C $(LIBFT_DIR)
+
+clean:
+	@$(MAKE) -C $(LIBFT_DIR) clean
+	@rm -rf $(OBJ_DIR)
+	@echo "Object files removed"
+
+fclean: clean
+	@$(MAKE) -C $(LIBFT_DIR) fclean
+	@rm -f $(NAME)
+	@echo "Full cleaned"
+
+re: fclean all
+
+.PHONY: all clean fclean re
