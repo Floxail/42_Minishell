@@ -6,11 +6,11 @@
 /*   By: floxail <floxail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 18:00:00 by floxail           #+#    #+#             */
-/*   Updated: 2026/03/03 18:00:00 by floxail          ###   ########.fr       */
+/*   Updated: 2026/03/06 09:58:34 by floxail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Minishell.h"
+#include "../../minishell.h"
 
 static t_token	*ft_new_token(char *value, t_token_type type)
 {

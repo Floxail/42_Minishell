@@ -6,11 +6,11 @@
 /*   By: floxail <floxail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 18:00:00 by floxail           #+#    #+#             */
-/*   Updated: 2026/03/06 09:36:45 by floxail          ###   ########.fr       */
+/*   Updated: 2026/03/06 09:58:27 by floxail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Minishell.h"
+#include "../../minishell.h"
 
 static int	ft_parse_step(t_cmd **cmds, t_cmd **cmd, t_token **tok)
 {
