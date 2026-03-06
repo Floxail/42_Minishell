@@ -6,11 +6,11 @@
 /*   By: floxail <floxail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 10:50:04 by floxail           #+#    #+#             */
-/*   Updated: 2026/03/05 10:51:40 by floxail          ###   ########.fr       */
+/*   Updated: 2026/03/06 10:11:21 by floxail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int ft_isspac(char c)
+int ft_isspace(char c)
 {
 	return (c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r'
 		|| c == ' ');

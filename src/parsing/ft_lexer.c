@@ -6,11 +6,11 @@
 /*   By: floxail <floxail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 18:00:00 by floxail           #+#    #+#             */
-/*   Updated: 2026/03/05 10:48:37 by floxail          ###   ########.fr       */
+/*   Updated: 2026/03/06 10:12:01 by floxail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Minishell.h"
+#include "../../minishell.h"
 
 int	ft_is_meta(char c)
 {

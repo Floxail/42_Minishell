@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damarcin <damarcin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: floxail <floxail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 09:39:45 by damarcin          #+#    #+#             */
-/*   Updated: 2026/02/12 13:45:22 by damarcin         ###   ########.fr       */
+/*   Updated: 2026/03/06 10:11:40 by floxail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,14 @@ void	ft_lstdelone(t_list *lst, void (*del)(void*));
 void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
-
+int 	ft_isspace(char c);
 int		ft_putchar_d(int c);
 int		ft_putstr_d(char *c);
 int		ft_nb_len(int nbr);
 int		ft_putnbr_d(int nbr);
 int		ft_print_ptr(uintptr_t n);
 int		ft_print_base(long nb, char *base);
-int		ft_print_unsigned(uint nbr);
+int		ft_print_unsigned(int nbr);
 int		parse_flag(va_list args, char c);
 int		ft_printf(const char *str, ...);
 
