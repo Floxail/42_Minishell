@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: floxail <floxail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: damarcin <damarcin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 09:39:45 by damarcin          #+#    #+#             */
-/*   Updated: 2026/03/06 10:09:46 by floxail          ###   ########.fr       */
+/*   Updated: 2026/03/10 14:24:30 by damarcin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int		ft_nb_len(int nbr);
 int		ft_putnbr_d(int nbr);
 int		ft_print_ptr(uintptr_t n);
 int		ft_print_base(long nb, char *base);
-int		ft_print_unsigned(int nbr);
+int		ft_print_unsigned(uint nbr);
 int		parse_flag(va_list args, char c);
 int		ft_printf(const char *str, ...);
 

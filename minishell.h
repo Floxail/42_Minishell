@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: floxail <floxail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: damarcin <damarcin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 17:33:05 by floxail           #+#    #+#             */
-/*   Updated: 2026/03/06 10:06:25 by floxail          ###   ########.fr       */
+/*   Updated: 2026/03/10 14:32:48 by damarcin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,5 +124,9 @@ void		ft_free_redirs(t_redir *list);
 /* Error utils */
 
 int			ft_errmsg(char *msg);
+
+/* Builtins */
+
+int			ft_echo(char **args);
 
 #endif
