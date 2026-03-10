@@ -4,7 +4,8 @@ RM = rm -f
 #FLAGS = -Wall -Werror -Wextra
 FLAGS = -Wall -Wextra -lreadline
 
-SRCS = 	minishell.c
+SRCS = 	minishell.c \
+		signals.c
 
 OBJS = ${SRCS:.c=.o}
 LFLAGS  = -Llibft -lft
