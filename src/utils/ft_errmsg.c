@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isspace.c                                       :+:      :+:    :+:   */
+/*   ft_errmsg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: floxail <floxail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/05 10:50:04 by floxail           #+#    #+#             */
-/*   Updated: 2026/03/18 10:29:41 by floxail          ###   ########.fr       */
+/*   Created: 2026/03/03 18:00:00 by floxail           #+#    #+#             */
+/*   Updated: 2026/03/06 09:58:38 by floxail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../minishell.h"
 
-int	ft_isspace(char c)
+int	ft_errmsg(char *msg)
 {
-	return (c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r'
-		|| c == ' ');
+	ft_putstr_fd("minishell: ", 2);
+	ft_putendl_fd(msg, 2);
+	return (-1);
 }

@@ -80,7 +80,7 @@ int	ft_print_base(long nb, char *base)
 	return (len);
 }
 
-int	ft_print_unsigned(uint nbr)
+int	ft_print_unsigned(unsigned int nbr)
 {
 	int	len;
 

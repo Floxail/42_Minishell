@@ -6,7 +6,7 @@
 /*   By: floxail <floxail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 17:33:05 by floxail           #+#    #+#             */
-/*   Updated: 2026/03/06 10:06:25 by floxail          ###   ########.fr       */
+/*   Updated: 2026/03/18 10:32:06 by floxail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include "libft/libft.h"
+
 
 typedef enum e_token_type
 {
@@ -124,5 +125,22 @@ void		ft_free_redirs(t_redir *list);
 /* Error utils */
 
 int			ft_errmsg(char *msg);
+
+/* Free utils (strarr) */
+
+void		ft_free_strarr(char **arr);
+
+/* Executor */
+
+int			ft_executor(t_cmd *cmds, char **env);
+void		ft_child(t_cmd *cmd, int input_fd, int pipe_fd[2], char **env);
+int			ft_apply_redirs(t_redir *redirs);
+int			ft_get_heredoc(char *limiter);
+char		**ft_get_paths(char **env);
+char		*ft_find_cmd_path(char *cmd, char **paths);
+
+/* Global */
+
+extern int	g_exit_code;
 
 #endif
