@@ -12,7 +12,9 @@
 
 #include "minishell.h"
 
-void exit_shell(void)
+int	g_exit_code;
+
+void	exit_shell(void)
 {
 	rl_clear_history();
 }
@@ -31,10 +33,10 @@ void	sig_handler(int signal)
 	}
 }
 
-int	main()
+int	main(void)
 {
 	char	*line;
-	
+
 	signal(SIGINT, sig_handler);
 	while (1)
 	{

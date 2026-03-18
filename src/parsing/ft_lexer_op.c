@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Minishell.h"
+#include "../../minishell.h"
 
 static t_token_type	ft_get_op_type(char *input, int *i)
 {
