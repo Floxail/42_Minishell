@@ -5,7 +5,16 @@ RM = rm -f
 FLAGS = -Wall -Wextra -lreadline
 
 SRCS = 	minishell.c \
-		src/builtin/echo.c
+		src/builtin/ft_echo.c \
+		src/builtin/ft_pwd.c \
+		src/builtin/ft_cd.c \
+		src/builtin/ft_export.c \
+		src/builtin/ft_unset.c \
+		src/builtin/ft_env.c \
+		src/builtin/ft_exit.c \
+		src/env/env.c \
+		src/env/env_var_handle.c \
+		src/env/env_var_handle_utils.c 
 
 OBJS = ${SRCS:.c=.o}
 LFLAGS  = -Llibft -lft

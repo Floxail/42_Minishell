@@ -6,7 +6,7 @@
 /*   By: damarcin <damarcin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 17:33:05 by floxail           #+#    #+#             */
-/*   Updated: 2026/03/10 14:32:48 by damarcin         ###   ########.fr       */
+/*   Updated: 2026/03/31 13:26:36 by damarcin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include "libft/libft.h"
+# include <limits.h>
 
 typedef enum e_token_type
 {
@@ -83,6 +84,14 @@ typedef struct s_exp_ctx
 	int		in_dq;
 }	t_exp_ctx;
 
+/* Data du shell */
+typedef struct	t_data 
+{
+	char	**env_vars;
+	char	*wd;
+	char	*old_wd;
+}	s_data;
+
 /* Lexer */
 
 t_token		*ft_lexer(char *input);
@@ -125,8 +134,33 @@ void		ft_free_redirs(t_redir *list);
 
 int			ft_errmsg(char *msg);
 
+/* Env functions */
+
+int			cmp_var_name(char *src, char *dst);
+int			env_contains(char **env, char *var_name);
+char 		*get_var_val(s_data *data, char *var);
+int			var_name_valid(char *var);
+
+int			env_add_var(s_data *data, char *var);
+int			env_add_replace_var(s_data *data, char *var);
+int			env_rm_var(s_data *data, char *var_name);
+
+void		free_env(char **env);
+int			env_len(char **env);
+
+/* Data */
+
+void		cleanup_data(s_data *data);
+
 /* Builtins */
 
 int			ft_echo(char **args);
+int			ft_pwd(s_data *data);
+int			ft_cd(char **args, s_data *data);
+int			ft_export(char **args, s_data *data);
+int			ft_unset(char **args, s_data *data);
+int			ft_env(s_data *data);
+void		ft_exit(s_data *data);
+
 
 #endif
