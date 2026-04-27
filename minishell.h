@@ -6,7 +6,7 @@
 /*   By: floxail <floxail@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 17:33:05 by floxail           #+#    #+#             */
-/*   Updated: 2026/03/18 10:32:06 by floxail          ###   ########.fr       */
+/*   Updated: 2026/04/27 00:00:00 by floxail          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <limits.h>
 # include "libft/libft.h"
-
 
 typedef enum e_token_type
 {
@@ -35,16 +35,12 @@ typedef enum e_token_type
 	TOKEN_HEREDOC
 }	t_token_type;
 
-/*  Token  (sortie du Lexer : valeur RAW avec quotes conservées)  */
-
 typedef struct s_token
 {
 	char			*value;
 	t_token_type	type;
 	struct s_token	*next;
 }	t_token;
-
-/*  Redirection  */
 
 typedef struct s_redir
 {
@@ -53,16 +49,12 @@ typedef struct s_redir
 	struct s_redir	*next;
 }	t_redir;
 
-/*  Commande (sortie du Parser)  */
-
 typedef struct s_cmd
 {
 	char			**args;
 	t_redir			*redirs;
 	struct s_cmd	*next;
 }	t_cmd;
-
-/*  Contexte interne du Lexer  */
 
 typedef struct s_lex_ctx
 {
@@ -73,8 +65,6 @@ typedef struct s_lex_ctx
 	t_token	*list;
 }	t_lex_ctx;
 
-/*  Contexte interne de l'Expander  */
-
 typedef struct s_exp_ctx
 {
 	char	*src;
@@ -83,6 +73,13 @@ typedef struct s_exp_ctx
 	int		in_sq;
 	int		in_dq;
 }	t_exp_ctx;
+
+typedef struct s_data
+{
+	char	**env_vars;
+	char	*wd;
+	char	*old_wd;
+}	s_data;
 
 /* Lexer */
 
@@ -103,7 +100,7 @@ char		*ft_expand_value(char *src, char **env, int code);
 char		*ft_get_var_name(char *str, int *i);
 char		*ft_get_var_val(char *name, char **env, int code);
 
-/*  Parser */
+/* Parser */
 
 t_cmd		*ft_parser(t_token *tokens);
 int			ft_check_syntax(t_token *tok);
@@ -121,14 +118,11 @@ void		ft_cmd_addback(t_cmd **list, t_cmd *cmd);
 void		ft_free_cmds(t_cmd *list);
 void		ft_free_cmd(t_cmd *cmd);
 void		ft_free_redirs(t_redir *list);
+void		ft_free_strarr(char **arr);
 
 /* Error utils */
 
 int			ft_errmsg(char *msg);
-
-/* Free utils (strarr) */
-
-void		ft_free_strarr(char **arr);
 
 /* Executor */
 
@@ -138,6 +132,42 @@ int			ft_apply_redirs(t_redir *redirs);
 int			ft_get_heredoc(char *limiter);
 char		**ft_get_paths(char **env);
 char		*ft_find_cmd_path(char *cmd, char **paths);
+
+# define PROMPT "minishell$> "
+
+/* Env functions */
+
+int			cmp_var_name(char *src, char *dst);
+int			env_contains(char **env, char *var_name);
+char		*get_var_val(s_data *data, char *var);
+int			var_name_valid(char *var);
+int			env_add_var(s_data *data, char *var);
+int			env_add_replace_var(s_data *data, char *var);
+int			env_rm_var(s_data *data, char *var_name);
+void		free_env(char **env);
+int			env_len(char **env);
+char		**env_dup(char **env);
+
+/* Data */
+
+s_data		*init_data(char **env);
+void		cleanup_data(s_data *data);
+
+/* Builtins */
+
+int			ft_echo(char **args);
+int			ft_pwd(s_data *data);
+int			ft_cd(char **args, s_data *data);
+int			ft_export(char **args, s_data *data);
+int			ft_unset(char **args, s_data *data);
+int			ft_env(s_data *data);
+void		ft_exit(s_data *data);
+
+/* Signals */
+
+void		reset_prompt(int signo);
+void		ignore_sig_quit(void);
+void		set_sig_handlers(void);
 
 /* Global */
 
