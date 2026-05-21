@@ -6,7 +6,7 @@
 /*   By: damarcin <damarcin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 13:01:35 by damarcin          #+#    #+#             */
-/*   Updated: 2026/03/31 14:35:24 by damarcin         ###   ########.fr       */
+/*   Updated: 2026/05/05 14:43:04 by damarcin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,5 @@ int	ft_echo(char **args)
 	echo_print_args(args, i);
 	if (!n_flag)
 		ft_putchar_fd('\n', STDOUT_FILENO);
-	return (1);
+	return (0);
 }

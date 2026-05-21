@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer_word.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: floxail <floxail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: damarcin <damarcin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 18:00:00 by floxail           #+#    #+#             */
-/*   Updated: 2026/03/06 10:12:06 by floxail          ###   ########.fr       */
+/*   Updated: 2026/04/30 13:18:31 by damarcin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 ** ft_word_end : renvoie 1 si le caractère courant termine le mot.
 ** Un mot se termine sur : fin de chaîne, espace hors-quotes,
-** ou métacaractère hors-quotes.
+** ou métacaractère hors-quotes.s
 */
 static int	ft_word_end(t_lex_ctx *ctx)
 {

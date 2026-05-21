@@ -6,7 +6,7 @@
 /*   By: damarcin <damarcin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 13:48:55 by damarcin          #+#    #+#             */
-/*   Updated: 2026/03/31 14:34:23 by damarcin         ###   ########.fr       */
+/*   Updated: 2026/05/19 13:53:08 by damarcin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	env_contains(char **env, char *var_name)
 
 /* returns pointer to 1st char after '=' in a var string 
 returns null if var not found */
-char	*get_var_val(s_data *data, char *var)
+char	*get_var_val(t_data *data, char *var)
 {
 	int	i;
 	int	j;
@@ -76,14 +76,18 @@ int	var_name_valid(char *var)
 	int	i;
 
 	i = 0;
-	if (!isalpha(var[i]) && var[i] != '_')
-		return (0); //bad var name
+	if (var[i] != '_' && !isalpha(var[i]))
+		return (0);
 	i++;
 	while (var[i] && var[i] != '=')
 	{
 		if (!isalnum(var[i]) && var[i] != '_')
-			return (0); //bad var name
+			return (0);
 		i++;
 	}
-	return (1);
+	if (var[i])
+		i++;
+	if (!var[i] || !ft_strchr(var + i, '='))
+		return (1);
+	return (0);
 }

@@ -6,14 +6,14 @@
 /*   By: damarcin <damarcin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 12:46:46 by damarcin          #+#    #+#             */
-/*   Updated: 2026/03/31 14:37:47 by damarcin         ###   ########.fr       */
+/*   Updated: 2026/05/19 14:00:39 by damarcin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 /* update path variables in data and their corresponding env vars*/
-int	update_paths(s_data *data, char *path)
+int	update_paths(t_data *data, char *path)
 {
 	char	*tmp;
 
@@ -35,7 +35,7 @@ int	update_paths(s_data *data, char *path)
 }
 
 /* calls update_paths if chdir check passes, returns error otherwise */
-int	change_dir(s_data *data, char *path)
+int	change_dir(t_data *data, char *path)
 {
 	char	buf[PATH_MAX];
 
@@ -43,18 +43,18 @@ int	change_dir(s_data *data, char *path)
 		return (update_paths(data, getcwd(buf, PATH_MAX)));
 	else
 	{
-		ft_putendl_fd("cd: cannot access directory.", STDERR_FILENO);
+		ft_putendl_fd("cd: No such file or directory", STDERR_FILENO);
 		return (EXIT_FAILURE);
 	}
 }
 
-int	ft_cd(char **args, s_data *data)
+int	ft_cd(char **args, t_data *data)
 {
 	if (!args || !args[0][0])
 		return (EXIT_SUCCESS);
 	if (args[1])
 	{
-		ft_putendl_fd("Error: too many arguments.", STDERR_FILENO);
+		ft_putendl_fd("Error: too many arguments", STDERR_FILENO);
 		return (EXIT_FAILURE);
 	}
 	else if (ft_strncmp("-", args[0], 2) == 0)

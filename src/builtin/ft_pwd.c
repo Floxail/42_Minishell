@@ -6,14 +6,14 @@
 /*   By: damarcin <damarcin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 12:39:44 by damarcin          #+#    #+#             */
-/*   Updated: 2026/03/31 14:38:01 by damarcin         ###   ########.fr       */
+/*   Updated: 2026/04/30 13:16:11 by damarcin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 /* print current pwd via getcwd */
-int	ft_pwd(s_data *data)
+int	ft_pwd(t_data *data)
 {
 	char	buf[PATH_MAX];
 	char	*ret;

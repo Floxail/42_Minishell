@@ -6,14 +6,14 @@
 /*   By: damarcin <damarcin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 13:27:03 by damarcin          #+#    #+#             */
-/*   Updated: 2026/03/31 14:35:18 by damarcin         ###   ########.fr       */
+/*   Updated: 2026/04/30 13:16:13 by damarcin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 /* returns success if unset or if var not found */
-int	ft_unset(char **args, s_data *data)
+int	ft_unset(char **args, t_data *data)
 {
 	int	i;
 

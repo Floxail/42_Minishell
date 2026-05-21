@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: floxail <floxail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: damarcin <damarcin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 12:14:26 by damarcin          #+#    #+#             */
-/*   Updated: 2026/04/27 00:00:00 by floxail          ###   ########.fr       */
+/*   Updated: 2026/05/06 13:40:56 by damarcin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	g_exit_code;
 
-static void	run_line(char *line, s_data *data)
+static void	run_line(char *line, t_data *data)
 {
 	t_token	*tokens;
 	t_cmd	*cmds;
@@ -27,11 +27,11 @@ static void	run_line(char *line, s_data *data)
 	ft_free_tokens(tokens);
 	if (!cmds)
 		return ;
-	g_exit_code = ft_executor(cmds, data->env_vars);
+	g_exit_code = ft_executor(cmds, data);
 	ft_free_cmds(cmds);
 }
 
-static void	ft_loop(s_data *data)
+static void	ft_loop(t_data *data)
 {
 	char	*line;
 
@@ -45,6 +45,8 @@ static void	ft_loop(s_data *data)
 		}
 		if (*line)
 		{
+			if (!ft_strncmp(line, "exit", 4))
+				ft_exit(0, data);
 			add_history(line);
 			run_line(line, data);
 		}
@@ -54,7 +56,7 @@ static void	ft_loop(s_data *data)
 
 int	main(int ac, char **av, char **env)
 {
-	s_data	*data;
+	t_data	*data;
 
 	(void)ac;
 	(void)av;

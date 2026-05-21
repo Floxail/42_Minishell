@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: floxail <floxail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: damarcin <damarcin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 17:33:05 by floxail           #+#    #+#             */
-/*   Updated: 2026/04/27 00:00:00 by floxail          ###   ########.fr       */
+/*   Updated: 2026/05/13 15:47:47 by damarcin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ typedef struct s_data
 	char	**env_vars;
 	char	*wd;
 	char	*old_wd;
-}	s_data;
+}	t_data;
 
 /* Lexer */
 
@@ -126,8 +126,8 @@ int			ft_errmsg(char *msg);
 
 /* Executor */
 
-int			ft_executor(t_cmd *cmds, char **env);
-void		ft_child(t_cmd *cmd, int input_fd, int pipe_fd[2], char **env);
+int			ft_executor(t_cmd *cmds, t_data *data);
+void		ft_child(t_cmd *cmd, int input_fd, int pipe_fd[2], t_data *data);
 int			ft_apply_redirs(t_redir *redirs);
 int			ft_get_heredoc(char *limiter);
 char		**ft_get_paths(char **env);
@@ -139,29 +139,29 @@ char		*ft_find_cmd_path(char *cmd, char **paths);
 
 int			cmp_var_name(char *src, char *dst);
 int			env_contains(char **env, char *var_name);
-char		*get_var_val(s_data *data, char *var);
+char		*get_var_val(t_data *data, char *var);
 int			var_name_valid(char *var);
-int			env_add_var(s_data *data, char *var);
-int			env_add_replace_var(s_data *data, char *var);
-int			env_rm_var(s_data *data, char *var_name);
+int			env_add_var(t_data *data, char *var);
+int			env_add_replace_var(t_data *data, char *var);
+int			env_rm_var(t_data *data, char *var_name);
 void		free_env(char **env);
 int			env_len(char **env);
 char		**env_dup(char **env);
 
 /* Data */
 
-s_data		*init_data(char **env);
-void		cleanup_data(s_data *data);
+t_data		*init_data(char **env);
+void		cleanup_data(t_data *data);
 
 /* Builtins */
 
 int			ft_echo(char **args);
-int			ft_pwd(s_data *data);
-int			ft_cd(char **args, s_data *data);
-int			ft_export(char **args, s_data *data);
-int			ft_unset(char **args, s_data *data);
-int			ft_env(s_data *data);
-void		ft_exit(s_data *data);
+int			ft_pwd(t_data *data);
+int			ft_cd(char **args, t_data *data);
+int			ft_export(char **args, t_data *data);
+int			ft_unset(char **args, t_data *data);
+int			ft_env(t_data *data);
+void		ft_exit(char *code, t_data *data);
 
 /* Signals */
 

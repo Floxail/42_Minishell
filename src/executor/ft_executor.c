@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_executor.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: floxail <floxail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: damarcin <damarcin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 00:00:00 by floxail           #+#    #+#             */
-/*   Updated: 2026/03/17 00:00:00 by floxail          ###   ########.fr       */
+/*   Updated: 2026/05/06 13:39:51 by damarcin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_executor(t_cmd *cmds, char **env)
+int	ft_executor(t_cmd *cmds, t_data *data)
 {
 	t_cmd	*cmd;
 	int		input_fd;
@@ -34,7 +34,7 @@ int	ft_executor(t_cmd *cmds, char **env)
 		if (pid == -1)
 			return (ft_errmsg("fork"), 1);
 		if (pid == 0)
-			ft_child(cmd, input_fd, pipe_fd, env);
+			ft_child(cmd, input_fd, pipe_fd, data);
 		if (input_fd != STDIN_FILENO)
 			close(input_fd);
 		if (cmd->next)

@@ -6,7 +6,7 @@
 /*   By: damarcin <damarcin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 11:40:45 by damarcin          #+#    #+#             */
-/*   Updated: 2026/03/31 14:38:44 by damarcin         ###   ########.fr       */
+/*   Updated: 2026/04/30 13:16:30 by damarcin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ char	**env_dup(char **env)
 }
 
 /* init shell data: duplicate env, get working directory */
-s_data	*init_data(char **env)
+t_data	*init_data(char **env)
 {
-	s_data	*data;
+	t_data	*data;
 	char	buf[PATH_MAX];
 
-	data = malloc(sizeof(s_data));
+	data = malloc(sizeof(t_data));
 	if (!data)
 		return (NULL);
 	data->old_wd = NULL;

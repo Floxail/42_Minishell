@@ -6,14 +6,14 @@
 /*   By: damarcin <damarcin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 13:46:32 by damarcin          #+#    #+#             */
-/*   Updated: 2026/03/31 14:35:06 by damarcin         ###   ########.fr       */
+/*   Updated: 2026/05/04 13:16:40 by damarcin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 /* append a new var to env_vars. assumes var to be correctly formatted */
-int	env_add_var(s_data *data, char *var)
+int	env_add_var(t_data *data, char *var)
 {
 	int		len;
 	char	**rtn;
@@ -39,7 +39,7 @@ int	env_add_var(s_data *data, char *var)
 /* same as env_add_var but also checks if var already exists in env.
 replaces the value of var if it already exists in env,
 appends var to env otherwise */
-int	env_add_replace_var(s_data *data, char *var)
+int	env_add_replace_var(t_data *data, char *var)
 {
 	int	i;
 
@@ -61,7 +61,7 @@ int	env_add_replace_var(s_data *data, char *var)
 
 /* remove var from env. 
 requires a full env realloc since env has to be a char** */
-int	env_rm_var(s_data *data, char *var_name)
+int	env_rm_var(t_data *data, char *var_name)
 {
 	int		i;
 	int		j;
