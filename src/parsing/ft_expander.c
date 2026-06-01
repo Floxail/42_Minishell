@@ -21,18 +21,6 @@ static void	ft_init_exp_ctx(t_exp_ctx *ctx, char *src)
 	ctx->result = ft_calloc(1, 1);
 }
 
-static void	ft_exp_char(t_exp_ctx *ctx)
-{
-	char	tmp[2];
-	char	*new_res;
-
-	tmp[0] = ctx->src[ctx->i++];
-	tmp[1] = '\0';
-	new_res = ft_strjoin(ctx->result, tmp);
-	free(ctx->result);
-	ctx->result = new_res;
-}
-
 static void	ft_exp_dollar(t_exp_ctx *ctx, char **env, int code)
 {
 	char	*name;
@@ -51,28 +39,38 @@ static void	ft_exp_dollar(t_exp_ctx *ctx, char **env, int code)
 	ctx->result = name;
 }
 
+static void	ft_exp_step(t_exp_ctx *ctx, char **env, int code)
+{
+	if (ctx->src[ctx->i] == '\'' && !ctx->in_dq)
+	{
+		ctx->in_sq = !ctx->in_sq;
+		ctx->i++;
+	}
+	else if (ctx->src[ctx->i] == '"' && !ctx->in_sq)
+	{
+		ctx->in_dq = !ctx->in_dq;
+		ctx->i++;
+	}
+	else if (ctx->src[ctx->i] == '$' && !ctx->in_sq)
+	{
+		if (ctx->src[ctx->i + 1] == '"')
+			ft_exp_dq_literal(ctx);
+		else
+			ft_exp_dollar(ctx, env, code);
+	}
+	else
+		ft_exp_char(ctx);
+}
+
 char	*ft_expand_value(char *src, char **env, int code)
 {
 	t_exp_ctx	ctx;
 
 	ft_init_exp_ctx(&ctx, src);
+	if (src[0] == '~' && (src[1] == '/' || src[1] == '\0'))
+		ft_exp_tilde(&ctx, env, code);
 	while (ctx.src[ctx.i])
-	{
-		if (ctx.src[ctx.i] == '\'' && !ctx.in_dq)
-		{
-			ctx.in_sq = !ctx.in_sq;
-			ctx.i++;
-		}
-		else if (ctx.src[ctx.i] == '"' && !ctx.in_sq)
-		{
-			ctx.in_dq = !ctx.in_dq;
-			ctx.i++;
-		}
-		else if (ctx.src[ctx.i] == '$' && !ctx.in_sq)
-			ft_exp_dollar(&ctx, env, code);
-		else
-			ft_exp_char(&ctx);
-	}
+		ft_exp_step(&ctx, env, code);
 	return (ctx.result);
 }
 

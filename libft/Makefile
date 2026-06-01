@@ -27,16 +27,17 @@ CFLAGS		= -Wall -Wextra -Werror
 all:		${NAME}
 
 .c.o:
-			${GCC} ${CFLAGS} -c $< -o ${<:.c=.o}
+			@${GCC} ${CFLAGS} -c $< -o ${<:.c=.o}
 
 ${NAME}:	${OBJS}
-			${AR} ${NAME} ${OBJS}
-			${LIB} ${NAME}
+			@${AR} ${NAME} ${OBJS}
+			@${LIB} ${NAME}
+
 clean:
-			rm -f ${OBJS}
+			@rm -f ${OBJS}
 
 fclean:		clean
-			rm -f ${NAME}
+			@rm -f ${NAME}
 
 re:			fclean all
 .PHONY:		all clean fclean re bonus

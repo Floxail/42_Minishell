@@ -31,26 +31,55 @@ static void	run_line(char *line, t_data *data)
 	ft_free_cmds(cmds);
 }
 
+static void	ft_process_line(char *line, int interactive, t_data *data)
+{
+	if (*line)
+	{
+		if (interactive)
+			add_history(line);
+		run_line(line, data);
+	}
+	free(line);
+}
+
+static char	*ft_read_line(void)
+{
+	char	*line;
+	size_t	n;
+	size_t	len;
+
+	line = NULL;
+	n = 0;
+	if (getline(&line, &n, stdin) == -1)
+	{
+		free(line);
+		return (NULL);
+	}
+	len = ft_strlen(line);
+	if (len > 0 && line[len - 1] == '\n')
+		line[len - 1] = '\0';
+	return (line);
+}
+
 static void	ft_loop(t_data *data)
 {
 	char	*line;
+	int		interactive;
 
+	interactive = isatty(STDIN_FILENO);
 	while (1)
 	{
-		line = readline(PROMPT);
+		if (interactive)
+			line = readline(PROMPT);
+		else
+			line = ft_read_line();
 		if (!line)
 		{
-			ft_putendl_fd("exit", STDOUT_FILENO);
+			if (interactive)
+				ft_putendl_fd("exit", STDOUT_FILENO);
 			break ;
 		}
-		if (*line)
-		{
-			if (!ft_strncmp(line, "exit", 4))
-				ft_exit(0, data);
-			add_history(line);
-			run_line(line, data);
-		}
-		free(line);
+		ft_process_line(line, interactive, data);
 	}
 }
 

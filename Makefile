@@ -41,22 +41,28 @@ LIBFT = libft
 all: $(LIBFT) $(NAME)
 
 $(LIBFT):
-	make -C $(LIBFT)
+	@echo "Building libft..."
+	@$(MAKE) -C $(LIBFT) --no-print-directory
 
 $(NAME): $(OBJS)
-	$(CC) $(FLAGS) $(OBJS) -o $(NAME) $(LFLAGS)
+	@echo "Linking $(NAME)..."
+	@$(CC) $(FLAGS) $(OBJS) -o $(NAME) $(LFLAGS)
+	@echo "$(NAME) compiled successfully"
 
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(dir $@)
-	$(CC) $(FLAGS) -c $< -o $@
+	@echo "  CC  $<"
+	@$(CC) $(FLAGS) -c $< -o $@
 
 clean:
-	$(RM) -r $(OBJDIR)
-	make clean -C $(LIBFT)
+	@echo "Cleaning objects..."
+	@$(RM) -r $(OBJDIR)
+	@$(MAKE) clean -C $(LIBFT) --no-print-directory
 
 fclean: clean
-	make fclean -C $(LIBFT)
-	$(RM) $(NAME)
+	@$(MAKE) fclean -C $(LIBFT) --no-print-directory
+	@$(RM) $(NAME)
+	@echo "$(NAME) removed"
 
 re: fclean all
 

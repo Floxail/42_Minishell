@@ -12,32 +12,39 @@
 
 #include "../../minishell.h"
 
-static int ft_is_builtin(char *cmd)
+int	ft_is_builtin(char *cmd)
 {
-	if(!ft_strncmp(cmd, "cd", 2)
-		|| !ft_strncmp(cmd, "echo", 4)
-		|| !ft_strncmp(cmd, "env", 3)
-		|| !ft_strncmp(cmd, "export", 6)
-		|| !ft_strncmp(cmd, "pwd", 2)
-		|| !ft_strncmp(cmd, "unset", 5))
-			return (1);
+	if (!ft_strncmp(cmd, "cd", 3)
+		|| !ft_strncmp(cmd, "echo", 5)
+		|| !ft_strncmp(cmd, "env", 4)
+		|| !ft_strncmp(cmd, "exit", 5)
+		|| !ft_strncmp(cmd, "export", 7)
+		|| !ft_strncmp(cmd, "pwd", 4)
+		|| !ft_strncmp(cmd, "unset", 6))
+		return (1);
 	return (0);
 }
 
-static void ft_exec_builtin(t_cmd *cmd, t_data *data)
+int	ft_exec_builtin(t_cmd *cmd, t_data *data)
 {
-	if (!ft_strncmp(cmd->args[0], "cd", 2))
-		exit(ft_cd(&cmd->args[1], data));
-	if (!ft_strncmp(cmd->args[0], "echo", 4))
-		exit(ft_echo(&cmd->args[1]));
-	if (!ft_strncmp(cmd->args[0], "env", 3))
-		exit(ft_env(data));
-	if (!ft_strncmp(cmd->args[0], "export", 6))
-		exit(ft_export(&cmd->args[1], data));
-	if (!ft_strncmp(cmd->args[0], "pwd", 3))
-		exit(ft_pwd(data));
-	if (!ft_strncmp(cmd->args[0], "unset", 5))
-		exit(ft_unset(&cmd->args[0],  data));
+	if (!ft_strncmp(cmd->args[0], "cd", 3))
+		return (ft_cd(&cmd->args[1], data));
+	if (!ft_strncmp(cmd->args[0], "echo", 5))
+		return (ft_echo(&cmd->args[1]));
+	if (!ft_strncmp(cmd->args[0], "env", 4))
+		return (ft_env(data));
+	if (!ft_strncmp(cmd->args[0], "exit", 5))
+	{
+		ft_exit(cmd->args[1], data);
+		return (0);
+	}
+	if (!ft_strncmp(cmd->args[0], "export", 7))
+		return (ft_export(&cmd->args[1], data));
+	if (!ft_strncmp(cmd->args[0], "pwd", 4))
+		return (ft_pwd(data));
+	if (!ft_strncmp(cmd->args[0], "unset", 6))
+		return (ft_unset(&cmd->args[1], data));
+	return (0);
 }
 
 static void	ft_exec_cmd(t_cmd *cmd, t_data *data)
@@ -48,10 +55,7 @@ static void	ft_exec_cmd(t_cmd *cmd, t_data *data)
 	if (!cmd->args || !cmd->args[0])
 		exit(0);
 	if (ft_is_builtin(cmd->args[0]))
-	{
-		ft_exec_builtin(cmd, data);
-		return ;
-	}
+		exit(ft_exec_builtin(cmd, data));
 	paths = ft_get_paths(data->env_vars);
 	cmd_path = ft_find_cmd_path(cmd->args[0], paths);
 	ft_free_strarr(paths);

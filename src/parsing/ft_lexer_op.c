@@ -25,7 +25,6 @@ static t_token_type	ft_get_op_type(char *input, int *i)
 	return (*i += 1, TOKEN_REDIR_OUT);
 }
 
-
 int	ft_extract_operator(t_lex_ctx *ctx)
 {
 	t_token_type	type;

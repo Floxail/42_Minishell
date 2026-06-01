@@ -16,7 +16,7 @@
 int	ft_env(t_data *data)
 {
 	int	i;
-	
+
 	if (!data || !data->env_vars)
 		return (1);
 	i = 0;

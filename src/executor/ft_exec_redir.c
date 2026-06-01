@@ -12,44 +12,39 @@
 
 #include "../../minishell.h"
 
+static int	ft_open_redir(t_redir *r)
+{
+	if (r->type == TOKEN_REDIR_IN)
+		return (open(r->file, O_RDONLY));
+	if (r->type == TOKEN_REDIR_OUT)
+		return (open(r->file, O_WRONLY | O_CREAT | O_TRUNC, 0644));
+	if (r->type == TOKEN_APPEND)
+		return (open(r->file, O_WRONLY | O_CREAT | O_APPEND, 0644));
+	return (ft_get_heredoc(r->file));
+}
+
+static int	ft_redir_target(t_redir *r)
+{
+	if (r->type == TOKEN_REDIR_IN || r->type == TOKEN_HEREDOC)
+		return (STDIN_FILENO);
+	return (STDOUT_FILENO);
+}
+
 int	ft_apply_redirs(t_redir *redirs)
 {
 	int	fd;
 
 	while (redirs)
 	{
-		if (redirs->type == TOKEN_REDIR_IN)
+		fd = ft_open_redir(redirs);
+		if (fd == -1)
 		{
-			fd = open(redirs->file, O_RDONLY);
-			if (fd == -1)
-				return (ft_errmsg(redirs->file), -1);
-			dup2(fd, STDIN_FILENO);
-			close(fd);
+			if (redirs->type != TOKEN_HEREDOC)
+				ft_errmsg(redirs->file);
+			return (-1);
 		}
-		else if (redirs->type == TOKEN_REDIR_OUT)
-		{
-			fd = open(redirs->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if (fd == -1)
-				return (ft_errmsg(redirs->file), -1);
-			dup2(fd, STDOUT_FILENO);
-			close(fd);
-		}
-		else if (redirs->type == TOKEN_APPEND)
-		{
-			fd = open(redirs->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-			if (fd == -1)
-				return (ft_errmsg(redirs->file), -1);
-			dup2(fd, STDOUT_FILENO);
-			close(fd);
-		}
-		else if (redirs->type == TOKEN_HEREDOC)
-		{
-			fd = ft_get_heredoc(redirs->file);
-			if (fd == -1)
-				return (-1);
-			dup2(fd, STDIN_FILENO);
-			close(fd);
-		}
+		dup2(fd, ft_redir_target(redirs));
+		close(fd);
 		redirs = redirs->next;
 	}
 	return (0);

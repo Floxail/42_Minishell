@@ -30,7 +30,6 @@ static int	ft_parse_step(t_cmd **cmds, t_cmd **cmd, t_token **tok)
 	return (0);
 }
 
-
 t_cmd	*ft_parser(t_token *tokens)
 {
 	t_cmd	*cmds;

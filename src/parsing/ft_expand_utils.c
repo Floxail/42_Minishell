@@ -12,7 +12,6 @@
 
 #include "../../minishell.h"
 
-
 char	*ft_get_var_name(char *str, int *i)
 {
 	int	start;
@@ -24,7 +23,6 @@ char	*ft_get_var_name(char *str, int *i)
 		*i += 1;
 	return (ft_substr(str, start, *i - start));
 }
-
 
 char	*ft_get_var_val(char *name, char **env, int code)
 {
@@ -44,4 +42,47 @@ char	*ft_get_var_val(char *name, char **env, int code)
 		i++;
 	}
 	return (ft_strdup(""));
+}
+
+void	ft_exp_char(t_exp_ctx *ctx)
+{
+	char	tmp[2];
+	char	*new;
+
+	tmp[0] = ctx->src[ctx->i++];
+	tmp[1] = '\0';
+	new = ft_strjoin(ctx->result, tmp);
+	free(ctx->result);
+	ctx->result = new;
+}
+
+void	ft_exp_tilde(t_exp_ctx *ctx, char **env, int code)
+{
+	char	*home;
+	char	*new;
+
+	ctx->i++;
+	home = ft_get_var_val("HOME", env, code);
+	new = ft_strjoin(ctx->result, home);
+	free(home);
+	free(ctx->result);
+	ctx->result = new;
+}
+
+void	ft_exp_dq_literal(t_exp_ctx *ctx)
+{
+	char	tmp[2];
+	char	*new;
+
+	ctx->i += 2;
+	tmp[1] = '\0';
+	while (ctx->src[ctx->i] && ctx->src[ctx->i] != '"')
+	{
+		tmp[0] = ctx->src[ctx->i++];
+		new = ft_strjoin(ctx->result, tmp);
+		free(ctx->result);
+		ctx->result = new;
+	}
+	if (ctx->src[ctx->i] == '"')
+		ctx->i++;
 }

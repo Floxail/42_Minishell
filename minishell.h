@@ -99,6 +99,9 @@ void		ft_expander(t_token *tokens, char **env, int code);
 char		*ft_expand_value(char *src, char **env, int code);
 char		*ft_get_var_name(char *str, int *i);
 char		*ft_get_var_val(char *name, char **env, int code);
+void		ft_exp_char(t_exp_ctx *ctx);
+void		ft_exp_tilde(t_exp_ctx *ctx, char **env, int code);
+void		ft_exp_dq_literal(t_exp_ctx *ctx);
 
 /* Parser */
 
@@ -128,6 +131,8 @@ int			ft_errmsg(char *msg);
 
 int			ft_executor(t_cmd *cmds, t_data *data);
 void		ft_child(t_cmd *cmd, int input_fd, int pipe_fd[2], t_data *data);
+int			ft_is_builtin(char *cmd);
+int			ft_exec_builtin(t_cmd *cmd, t_data *data);
 int			ft_apply_redirs(t_redir *redirs);
 int			ft_get_heredoc(char *limiter);
 char		**ft_get_paths(char **env);

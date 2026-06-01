@@ -53,7 +53,7 @@ int	env_add_replace_var(t_data *data, char *var)
 		if (data->env_vars[i])
 			return (EXIT_SUCCESS);
 		else
-			return (EXIT_FAILURE); //mem error
+			return (EXIT_FAILURE);
 	}
 	else
 		return (env_add_var(data, var));
@@ -68,10 +68,10 @@ int	env_rm_var(t_data *data, char *var_name)
 	char	**rtn;
 
 	if (!env_contains(data->env_vars, var_name))
-		return (EXIT_SUCCESS); //var not found, not treated as error
+		return (EXIT_SUCCESS);
 	rtn = malloc(sizeof(char *) * (env_len(data->env_vars)));
 	if (!rtn)
-		return (EXIT_FAILURE); //mem error
+		return (EXIT_FAILURE);
 	i = 0;
 	j = 0;
 	while (data->env_vars[i])

@@ -19,13 +19,9 @@ int	is_valid_code(char *code)
 	i = 0;
 	while (code[i])
 	{
-		if (!isdigit(code[i]))
-			if (i == 0 && code[i] == '+')
-				i++;
-			else
-				return (0);
-		else
-			i++;
+		if (!isdigit(code[i]) && !(i == 0 && code[i] == '+'))
+			return (0);
+		i++;
 	}
 	i = ft_atol(code);
 	if (i < 0 || i > 2147483647)
