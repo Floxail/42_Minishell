@@ -6,14 +6,42 @@
 /*   By: damarcin <damarcin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 00:00:00 by floxail           #+#    #+#             */
-/*   Updated: 2026/05/06 13:25:41 by damarcin         ###   ########.fr       */
+/*   Updated: 2026/07/09 11:03:49 by damarcin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+void	path_error(t_cmd *cmd, char *cmd_path)
+{
+	struct stat	buf;
+
+	if (!cmd_path)
+	{
+		if (ft_strchr(cmd->args[0], 47))
+			pcmderr(cmd->args[0], "No such file or directory");
+		else
+			pcmderr(cmd->args[0], "command not found");
+		exit(127);
+	}
+	if (access(cmd_path, X_OK) != 0)
+	{
+		pcmderr(cmd->args[0], "Permission denied");
+		exit(126);
+	}
+	if (stat(cmd_path, &buf) == -1)
+		exit(1);
+	if (S_ISDIR(buf.st_mode))
+	{
+		pcmderr(cmd->args[0], "Is a directory");
+		exit(126);
+	}
+}
+
 int	ft_is_builtin(char *cmd)
 {
+	if (ft_strchr(cmd, '=') && var_name_valid(cmd))
+		return (1);
 	if (!ft_strncmp(cmd, "cd", 3)
 		|| !ft_strncmp(cmd, "echo", 5)
 		|| !ft_strncmp(cmd, "env", 4)
@@ -25,24 +53,31 @@ int	ft_is_builtin(char *cmd)
 	return (0);
 }
 
-int	ft_exec_builtin(t_cmd *cmd, t_data *data)
+int	ft_exec_builtin(t_cmd *cmd, t_data *data, t_cmd *cmd_list_start)
 {
-	if (!ft_strncmp(cmd->args[0], "cd", 3))
+	if (ft_strchr(cmd->args[0], '=') && var_name_valid(cmd->args[0]))
+		return (ft_export(&cmd->args[0], data));
+	if (!ft_strncmp(cmd->args[0], "cd", 2))
 		return (ft_cd(&cmd->args[1], data));
-	if (!ft_strncmp(cmd->args[0], "echo", 5))
+	if (!ft_strncmp(cmd->args[0], "echo", 4))
 		return (ft_echo(&cmd->args[1]));
-	if (!ft_strncmp(cmd->args[0], "env", 4))
+	if (!ft_strncmp(cmd->args[0], "env", 3))
 		return (ft_env(data));
-	if (!ft_strncmp(cmd->args[0], "exit", 5))
+	if (!ft_strncmp(cmd->args[0], "exit", 4))
 	{
-		ft_exit(cmd->args[1], data);
-		return (0);
+		if (cmd->args[1] && cmd->args[2])
+		{
+			pcmderr("exit", "too many arguments");
+			return (1);
+		}
+		ft_exit(cmd->args[1], data, cmd_list_start);
+		return (2);
 	}
-	if (!ft_strncmp(cmd->args[0], "export", 7))
+	if (!ft_strncmp(cmd->args[0], "export", 6))
 		return (ft_export(&cmd->args[1], data));
-	if (!ft_strncmp(cmd->args[0], "pwd", 4))
+	if (!ft_strncmp(cmd->args[0], "pwd", 3))
 		return (ft_pwd(data));
-	if (!ft_strncmp(cmd->args[0], "unset", 6))
+	if (!ft_strncmp(cmd->args[0], "unset", 5))
 		return (ft_unset(&cmd->args[1], data));
 	return (0);
 }
@@ -50,26 +85,19 @@ int	ft_exec_builtin(t_cmd *cmd, t_data *data)
 static void	ft_exec_cmd(t_cmd *cmd, t_data *data)
 {
 	char	**paths;
-	char	*cmd_path;
 
 	if (!cmd->args || !cmd->args[0])
 		exit(0);
 	if (ft_is_builtin(cmd->args[0]))
-		exit(ft_exec_builtin(cmd, data));
+		exit(ft_exec_builtin(cmd, data, NULL));
 	paths = ft_get_paths(data->env_vars);
-	cmd_path = ft_find_cmd_path(cmd->args[0], paths);
+	cmd->path = ft_find_cmd_path(cmd->args[0], paths);
 	ft_free_strarr(paths);
-	if (!cmd_path)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(cmd->args[0], 2);
-		ft_putendl_fd(": command not found", 2);
-		exit(127);
-	}
-	execve(cmd_path, cmd->args, data->env_vars);
-	free(cmd_path);
+	path_error(cmd, cmd->path);
+	execve(cmd->path, cmd->args, data->env_vars);
+	free(cmd->args[0]);
 	ft_errmsg("execve");
-	exit(1);
+	exit(errno);
 }
 
 void	ft_child(t_cmd *cmd, int input_fd, int pipe_fd[2], t_data *data)
@@ -87,7 +115,7 @@ void	ft_child(t_cmd *cmd, int input_fd, int pipe_fd[2], t_data *data)
 		close(pipe_fd[1]);
 		close(pipe_fd[0]);
 	}
-	if (ft_apply_redirs(cmd->redirs) == -1)
+	if (ft_apply_redirs(cmd->redirs, data) == -1)
 		exit(1);
 	ft_exec_cmd(cmd, data);
 }

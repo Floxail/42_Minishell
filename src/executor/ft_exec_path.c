@@ -6,7 +6,7 @@
 /*   By: damarcin <damarcin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 00:00:00 by floxail           #+#    #+#             */
-/*   Updated: 2026/05/13 16:35:01 by damarcin         ###   ########.fr       */
+/*   Updated: 2026/06/29 12:18:32 by damarcin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ char	*ft_find_cmd_path(char *cmd, char **paths)
 
 	if (!cmd || !paths)
 		return (NULL);
-	if (access(cmd, X_OK) == 0)
+	if ((!ft_strncmp(cmd, "./", 2) || !ft_strncmp(cmd, "/", 1))
+		&& access(cmd, F_OK) == 0)
 		return (ft_strdup(cmd));
 	i = 0;
 	while (paths[i])
@@ -50,7 +51,7 @@ char	*ft_find_cmd_path(char *cmd, char **paths)
 		free(temp);
 		if (!full_path)
 			return (NULL);
-		if (access(full_path, X_OK) == 0)
+		if (access(full_path, F_OK) == 0)
 			return (full_path);
 		free(full_path);
 		i++;

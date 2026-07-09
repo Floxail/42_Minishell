@@ -6,7 +6,7 @@
 /*   By: damarcin <damarcin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 00:00:00 by floxail           #+#    #+#             */
-/*   Updated: 2026/05/06 13:39:51 by damarcin         ###   ########.fr       */
+/*   Updated: 2026/07/09 11:39:17 by damarcin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,13 @@ int	ft_executor(t_cmd *cmds, t_data *data)
 	int		input_fd;
 
 	cmd = cmds;
-	if (!cmd->next && !cmd->redirs && cmd->args && cmd->args[0]
-		&& ft_is_builtin(cmd->args[0]))
-		return (ft_exec_builtin(cmd, data));
+	if (!cmd->next && !cmd->redirs && cmd->args && cmd->args[0])
+	{
+		if (ft_is_builtin(cmd->args[0]))
+			return (ft_exec_builtin(cmd, data, cmds));
+		if (ft_strchr(cmd->args[0], '=') && var_name_valid(cmd->args[0]))
+			return (ft_export(&cmd->args[0], data));
+	}
 	input_fd = STDIN_FILENO;
 	while (cmd)
 	{

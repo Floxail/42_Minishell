@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free_cmds.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: floxail <floxail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: damarcin <damarcin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 18:00:00 by floxail           #+#    #+#             */
-/*   Updated: 2026/03/06 09:58:41 by floxail          ###   ########.fr       */
+/*   Updated: 2026/06/18 13:43:06 by damarcin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	ft_free_cmd(t_cmd *cmd)
 		return ;
 	ft_free_args(cmd->args);
 	ft_free_redirs(cmd->redirs);
+	if (cmd->path)
+		free(cmd->path);
 	free(cmd);
 }
 

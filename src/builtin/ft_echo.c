@@ -6,7 +6,7 @@
 /*   By: damarcin <damarcin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 13:01:35 by damarcin          #+#    #+#             */
-/*   Updated: 2026/05/05 14:43:04 by damarcin         ###   ########.fr       */
+/*   Updated: 2026/06/18 14:24:54 by damarcin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	echo_print_args(char **args, int i)
 }
 
 /* checks for "-n" flag, prints out all args.
-prints newline if "-n" was found */
+prints newline if "-n" was not found */
 int	ft_echo(char **args)
 {
 	int	n_flag;

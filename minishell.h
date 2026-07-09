@@ -6,7 +6,7 @@
 /*   By: damarcin <damarcin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 17:33:05 by floxail           #+#    #+#             */
-/*   Updated: 2026/05/13 15:47:47 by damarcin         ###   ########.fr       */
+/*   Updated: 2026/07/09 11:03:37 by damarcin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <signal.h>
+# include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <limits.h>
 # include "libft/libft.h"
 
@@ -52,6 +54,7 @@ typedef struct s_redir
 typedef struct s_cmd
 {
 	char			**args;
+	char			*path;
 	t_redir			*redirs;
 	struct s_cmd	*next;
 }	t_cmd;
@@ -126,15 +129,16 @@ void		ft_free_strarr(char **arr);
 /* Error utils */
 
 int			ft_errmsg(char *msg);
+void		pcmderr(char *cmd, char *err);
 
 /* Executor */
 
 int			ft_executor(t_cmd *cmds, t_data *data);
 void		ft_child(t_cmd *cmd, int input_fd, int pipe_fd[2], t_data *data);
 int			ft_is_builtin(char *cmd);
-int			ft_exec_builtin(t_cmd *cmd, t_data *data);
-int			ft_apply_redirs(t_redir *redirs);
-int			ft_get_heredoc(char *limiter);
+int			ft_exec_builtin(t_cmd *cmd, t_data *data, t_cmd *cmd_list_start);
+int			ft_apply_redirs(t_redir *redirs, t_data *data);
+int			ft_get_heredoc(char *limiter, t_data *data);
 char		**ft_get_paths(char **env);
 char		*ft_find_cmd_path(char *cmd, char **paths);
 
@@ -166,7 +170,7 @@ int			ft_cd(char **args, t_data *data);
 int			ft_export(char **args, t_data *data);
 int			ft_unset(char **args, t_data *data);
 int			ft_env(t_data *data);
-void		ft_exit(char *code, t_data *data);
+void		ft_exit(char *code, t_data *data, t_cmd *cmds);
 
 /* Signals */
 

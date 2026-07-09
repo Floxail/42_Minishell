@@ -1,38 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: damarcin <damarcin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/08 12:53:33 by damarcin          #+#    #+#             */
-/*   Updated: 2025/10/10 11:07:33 by damarcin         ###   ########.fr       */
+/*   Created: 2026/06/29 13:05:09 by damarcin          #+#    #+#             */
+/*   Updated: 2026/07/09 11:40:48 by damarcin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strndup(char *str, int len)
 {
-	char	*rtn;
 	int		i;
-	int		j;
+	char	*rtn;
 
 	i = 0;
-	j = 0;
-	rtn = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!str || len <= 0)
+		return (NULL);
+	rtn = malloc(sizeof(char) * (len + 1));
 	if (!rtn)
 		return (NULL);
-	while (s1[i])
+	while (str[i] && i < len)
 	{
-		rtn[i] = s1[i];
+		rtn[i] = str[i];
 		i++;
 	}
-	while (s2[j])
+	while (i <= len)
 	{
-		rtn[i + j] = s2[j];
-		j++;
+		rtn[i] = '\0';
+		i++;
 	}
-	rtn[i + j] = '\0';
 	return (rtn);
 }

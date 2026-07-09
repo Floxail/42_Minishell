@@ -6,7 +6,7 @@
 /*   By: damarcin <damarcin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 09:39:45 by damarcin          #+#    #+#             */
-/*   Updated: 2026/04/27 00:00:00 by floxail          ###   ########.fr       */
+/*   Updated: 2026/06/29 13:09:18 by damarcin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,6 @@ int		parse_flag(va_list args, char c);
 int		ft_printf(const char *str, ...);
 
 long	ft_atol(const char *nptr);
+char	*ft_strndup(char *str, int len);
 
 #endif

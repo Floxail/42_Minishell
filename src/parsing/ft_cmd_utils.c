@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cmd_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: floxail <floxail@student.42.fr>            +#+  +:+       +#+        */
+/*   By: damarcin <damarcin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 18:00:00 by floxail           #+#    #+#             */
-/*   Updated: 2026/03/06 09:58:48 by floxail          ###   ########.fr       */
+/*   Updated: 2026/06/18 13:28:05 by damarcin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,11 @@
 
 t_cmd	*ft_new_cmd(void)
 {
-	return (ft_calloc(1, sizeof(t_cmd)));
+	t_cmd	*rtn;
+
+	rtn = ft_calloc(1, sizeof(t_cmd));
+	rtn->path = NULL;
+	return (rtn);
 }
 
 int	ft_add_arg(t_cmd *cmd, char *val)
