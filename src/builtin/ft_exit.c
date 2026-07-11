@@ -6,7 +6,7 @@
 /*   By: damarcin <damarcin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 11:57:48 by damarcin          #+#    #+#             */
-/*   Updated: 2026/07/03 14:28:18 by damarcin         ###   ########.fr       */
+/*   Updated: 2026/07/11 10:09:00 by damarcin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	cleanup_data(t_data *data)
 	}
 }
 
-//add anything that needs cleaning up on exit here
+//cleans up anything that might be allocated before exit
 void	ft_exit(char *code, t_data *data, t_cmd *cmds)
 {
 	int	ex_code;
@@ -69,7 +69,7 @@ void	ft_exit(char *code, t_data *data, t_cmd *cmds)
 		ft_putstr_fd("exit\n", 1);
 		ft_free_cmds(cmds);
 		cleanup_data(data);
-		rl_clear_history();
 	}
+	rl_clear_history();
 	exit(ex_code % 256);
 }
